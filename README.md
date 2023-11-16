@@ -1,14 +1,22 @@
 # SignUp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+This project is a simple Angular application featuring a signup page with four fields: First Name, Last Name, Email, and Password.
+The application includes validation rules for the password and email fields.
+
+#### Password validation:
+Minimum of eight characters.
+Contains both lowercase and uppercase letters.
+Should not contain the user’s first or last name.
+#### Email validation:
+[must be a char at least + @ sign + another char at least + . + at least a character]
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+git clone https://github.com/di22/sign-up
 
 ## Build
 
@@ -16,11 +24,13 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via [Jest](https://jestjs.io).
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `ng e2e` to execute the end-to-end tests via playwright. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+install playwright: npm init playwright@latest
 
 ## Further help
 

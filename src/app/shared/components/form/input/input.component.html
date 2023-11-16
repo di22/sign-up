@@ -1,0 +1,7 @@
+<div class="d-flex flex-column">
+  <label class="form__label">{{label}}</label>
+  <input [type]="type" [formControl]="control" placeholder="{{label}}"
+         class="form__input" [ngClass]="{'invalid': control.invalid && control.touched}"
+         autoFocus [autofocus]="autofocus"/>
+  <app-control-error-message [control]="control" [label]="label" [customErrorMessages]="customErrorMessages"></app-control-error-message>
+</div>

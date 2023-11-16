@@ -1,0 +1,18 @@
+<div class="container">
+  <main class="main d-flex flex-column align-items-center w-50">
+    <header class="header">Sign up</header>
+    <div class="card d-flex flex-column">
+      <form [formGroup]="form" class="form" (keydown.enter)="validate()">
+        <app-input label="Last name" [control]="firstName" [type]="controlTypes.Text" [autofocus]="true"></app-input>
+        <app-input label="First name" [control]="lastName" [type]="controlTypes.Text"></app-input>
+        <app-input label="Email" [control]="email" [type]="controlTypes.Email"></app-input>
+        <app-input-password label="Password" [control]="password" [customErrorMessages]="passwordErrorMessages"
+                            [type]="controlTypes.Password"></app-input-password>
+      </form>
+      <button data-test="form-button" type="button" (click)="validate()" class="button primary-button">
+        Sign up
+      </button>
+    </div>
+  </main>
+</div>
+

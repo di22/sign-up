@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  .main {
+    .header {
+      font-family: 'Kelly Slab', cursive;
+      margin-bottom: 1rem;
+      font-size: 3rem;
+    }
+
+    .card {
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      padding: 2rem;
+      justify-content: center;
+    }
+
+    .form {
+      align-self: center;
+    }
+
+    .button {
+      cursor: pointer;
+      border: none;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    .primary-button {
+      background-color: rgb(0, 102, 204);
+      color: white;
+    }
+
+    .primary-button:hover {
+      background-color: rgb(0, 102, 204, 0.85);
+    }
+  }
+}
