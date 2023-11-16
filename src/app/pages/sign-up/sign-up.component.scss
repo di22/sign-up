@@ -4,7 +4,6 @@
 
   .main {
     .header {
-      font-family: 'Kelly Slab', cursive;
       margin-bottom: 1rem;
       font-size: 3rem;
     }
@@ -16,6 +15,8 @@
     }
 
     .form {
+      display: flex;
+      flex-direction: column;
       align-self: center;
     }
 

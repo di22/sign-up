@@ -15,6 +15,24 @@ body {
   position: relative;
 }
 
+input {
+  display: block;
+  width: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.w-75 {
+  width: 75%;
+}
+
+
 .w-50 {
   width: 50%;
 }
@@ -43,6 +61,10 @@ body {
   justify-content: center;
 }
 
+.justify-content-between {
+  justify-content: space-between;
+}
+
 .align-items-center {
   align-items: center;
 }
@@ -63,17 +85,19 @@ body {
 
 
 // form
+
 .form__input {
-  width: clamp(120px, 50vw, 420px);
   height: var(--input-height);
-  padding: 0 1.25rem;
-  border: 1px solid #000;
-  border-radius: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #666;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  background: white;
+  outline: none;
+  width: 100%;
   margin: 0.625rem auto;
   transition: all 250ms;
-  @media (min-width: 768px) {
-    width: clamp(120px, 35vw, 420px);
-  }
 
   &::placeholder {
     display: none;
@@ -105,5 +129,41 @@ body {
   &:focus {
     box-shadow: 0 0 0 1px #cc0c39 inset, 0 0 0 3px #ffe3e3;
     background-color: #fff;
+  }
+}
+
+[class*="form-col"] {
+  flex: 0 1 100%;
+}
+
+@media (max-width: 575px) {
+  [class*="form-col"] {
+    flex: 0 1 100%;
+  }
+
+  .flex-row {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 576px) {
+  .form-col-4 {
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+  }
+
+  .form-col-5 {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+
+  .form-col-8 {
+    flex: 0 0 66.66667%;
+    max-width: 66.66667%;
+  }
+
+  .form-col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }

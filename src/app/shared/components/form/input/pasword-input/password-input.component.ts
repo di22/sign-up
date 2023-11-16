@@ -13,7 +13,8 @@ import {ControlTypes} from "../../../../constants/control-types";
   styles: [`
     :host {
       img {
-        right: 10px;
+        right: 0px;
+        top: 35px;
       }
 
       .password-alert {
