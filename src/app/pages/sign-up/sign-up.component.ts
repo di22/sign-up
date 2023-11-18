@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -9,6 +9,7 @@ import {PasswordInputComponent} from "../../shared/components/form/input/pasword
 import {Email_Pattern, English_Characters_Pattern} from "../../shared/constants/regex-patterns";
 import {passwordStrengthValidator} from "../../shared/validations/form/custom-validators/password-validation";
 import {AuthRepository} from "../../data/auth/auth.repository";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +19,7 @@ import {AuthRepository} from "../../data/auth/auth.repository";
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
+  destroyRef = inject(DestroyRef);
   form: FormGroup;
   firstName: FormControl<string>;
   lastName: FormControl<string>;
@@ -57,7 +59,7 @@ export class SignUpComponent implements OnInit {
   }
 
   signup(): void {
-    this.authRepository.signup(this.form.value).subscribe(res => {
+    this.authRepository.signup(this.form.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.router.navigateByUrl('/success');
     });
   }
