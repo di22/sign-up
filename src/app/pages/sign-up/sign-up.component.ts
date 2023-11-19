@@ -10,6 +10,7 @@ import {Email_Pattern, English_Characters_Pattern} from "../../shared/constants/
 import {passwordStrengthValidator} from "../../shared/validations/form/custom-validators/password-validation";
 import {AuthRepository} from "../../data/auth/auth.repository";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {merge} from "rxjs";
 
 @Component({
   selector: 'app-signup',
@@ -29,7 +30,9 @@ export class SignUpComponent implements OnInit {
   passwordErrorMessages = {
     'minlength': 'Password must be at least 8 characters, and you can add numbers (optional)',
     'passwordStrength': 'You must follow the below instructions for strong password'
-  }
+  };
+  serverError: boolean;
+
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private formHelperService: FormHelperService,
@@ -51,6 +54,10 @@ export class SignUpComponent implements OnInit {
     this.lastName = <FormControl>this.form.get('lastName');
     this.email = <FormControl>this.form.get('email');
     this.password = <FormControl>this.form.get('password');
+
+    merge(this.firstName.valueChanges, this.lastName.valueChanges).subscribe(res => {
+      this.password.updateValueAndValidity();
+    });
   }
 
   validate(): void {
@@ -61,6 +68,8 @@ export class SignUpComponent implements OnInit {
   signup(): void {
     this.authRepository.signup(this.form.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.router.navigateByUrl('/success');
+    }, _ => {
+      this.serverError = true;
     });
   }
 }
