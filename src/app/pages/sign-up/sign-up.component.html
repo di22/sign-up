@@ -2,13 +2,14 @@
   <main class="main d-flex flex-column align-items-center w-50">
     <header class="header">Sign up</header>
     <div class="card d-flex flex-column">
+      <span *ngIf="serverError" class="message-error">Server error please try again</span>
       <form [formGroup]="form" class="form" (keydown.enter)="validate()">
         <div class="d-flex flex-row w-100 justify-content-between">
           <div class="form-col-5">
-            <app-input label="Last name" [control]="firstName" [type]="controlTypes.Text" [autofocus]="true"></app-input>
+            <app-input label="First name" [control]="firstName" [type]="controlTypes.Text" [autofocus]="true"></app-input>
           </div>
           <div class="form-col-5">
-            <app-input label="First name" [control]="lastName" [type]="controlTypes.Text"></app-input>
+            <app-input label="Last name" [control]="lastName" [type]="controlTypes.Text"></app-input>
           </div>
         </div>
           <app-input label="Email" [control]="email" [type]="controlTypes.Email"></app-input>
