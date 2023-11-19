@@ -2,8 +2,7 @@ import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom} from '@angular/
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ErrorInterceptorService} from "./core/services/error-interceptor.service";
+import {HttpClientModule} from "@angular/common/http";
 import {ConfigService} from "./core/services/config.service";
 
 export function configServiceFactory(config: ConfigService): () => Promise<boolean> {
@@ -14,7 +13,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     importProvidersFrom(HttpClientModule),
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
     {
       provide: APP_INITIALIZER,
       useFactory: configServiceFactory,
