@@ -1,7 +1,8 @@
-import {Component, Input, signal, WritableSignal} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {ControlErrorMessageComponent} from "../control-error-message/control-error-message.component";
+import {ControlTypes} from "../../../constants/control-types";
 
 @Component({
   selector: 'app-input',
@@ -10,7 +11,7 @@ import {ControlErrorMessageComponent} from "../control-error-message/control-err
   templateUrl: './input.component.html'
 })
 export class InputComponent {
-  @Input() type: string;
+  @Input() type: ControlTypes;
   @Input() control: FormControl = new FormControl<any>('');
   @Input() label: string;
   @Input() customErrorMessages: {[key: string]: string};
