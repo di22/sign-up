@@ -4,6 +4,11 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {FormHelperService} from "../../shared/services/form-helper.service";
 import {AuthRepository} from "../../data/auth/auth.repository";
 import {of} from "rxjs";
+import {InputComponent} from "../../shared/components/form/input/input.component";
+import {By} from "@angular/platform-browser";
+import {
+  ControlErrorMessageComponent
+} from "../../shared/components/form/control-error-message/control-error-message.component";
 
 describe('SignupComponent', () => {
   let fixture: ComponentFixture<SignUpComponent>;
@@ -99,6 +104,48 @@ describe('SignupComponent', () => {
     expect(component.signup).toHaveBeenCalledTimes(0);
   });
 
+  it('should render password strength error based on first and last name values changes', () => {
+    const formValue = {
+      email: 'diaa@hammad.com',
+      password: 'Diaa1234567'
+    }
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+
+    const submitButton = compiled.querySelector('button') as HTMLButtonElement;
+
+    submitButton.click();
+    fixture.detectChanges();
+
+    let errorMessage: ControlErrorMessageComponent = fixture.debugElement.query(By.css('[data-test="password-error"]')).componentInstance;
+
+    expect(errorMessage.error).toBeTruthy();
+    expect(errorMessage.error).toEqual('You must follow the below instructions for strong password');
+    expect(component.form.invalid).toBeTruthy();
+    expect(component.password.invalid).toBeTruthy();
+/////////
+    component.firstName.setValue('diaa');
+    component.lastName.setValue('hammad');
+    fixture.detectChanges();
+
+    errorMessage = fixture.debugElement.query(By.css('[data-test="password-error"]')).componentInstance;
+
+    expect(errorMessage.error).toBeTruthy();
+    expect(errorMessage.error).toEqual('You must follow the below instructions for strong password');
+    expect(component.form.invalid).toBeTruthy();
+    expect(component.password.invalid).toBeTruthy();
+/////////
+    component.firstName.setValue('moha');
+    component.lastName.setValue('hammad');
+    fixture.detectChanges();
+
+    errorMessage = fixture.debugElement.query(By.css('[data-test="password-error"]')).componentInstance;
+
+    expect(errorMessage.error).toBeFalsy();
+    expect(component.form.valid).toBeTruthy();
+    expect(component.password.valid).toBeTruthy();
+  });
+
   it('should show password length and strength errors', () => {
     jest.spyOn(component, 'signup');
     jest.spyOn(formHelperService, 'validateAllFormFields');
@@ -128,11 +175,11 @@ describe('SignupComponent', () => {
     expect(component.signup).toHaveBeenCalledTimes(0);
 
     // strength error
-    const password = 'ali1234567'
+    let password = 'ali1234567'
     component.password.patchValue(password);
     fixture.detectChanges();
 
-    const strengthErrorMessage = compiled.querySelector('.message-error') as HTMLSpanElement;
+    let strengthErrorMessage = compiled.querySelector('.message-error') as HTMLSpanElement;
 
     expect(strengthErrorMessage).toBeTruthy();
     expect(strengthErrorMessage.textContent?.trim()).toEqual('You must follow the below instructions for strong password');
@@ -142,14 +189,14 @@ describe('SignupComponent', () => {
     expect(component.signup).toHaveBeenCalledTimes(0);
 
     // strength error for ensure name not included
-    const password2 = 'diaaA1234567'
-    component.password.patchValue(password2);
+    password = 'diaaA1234567'
+    component.password.patchValue(password);
     fixture.detectChanges();
 
-    const strengthErrorMessage2 = compiled.querySelector('.message-error') as HTMLSpanElement;
+    strengthErrorMessage = compiled.querySelector('.message-error') as HTMLSpanElement;
 
     expect(strengthErrorMessage).toBeTruthy();
-    expect(strengthErrorMessage2.textContent?.trim()).toEqual('You must follow the below instructions for strong password');
+    expect(strengthErrorMessage.textContent?.trim()).toEqual('You must follow the below instructions for strong password');
     expect(component.form.invalid).toBeTruthy();
     expect(component.password.invalid).toBeTruthy();
     expect(formHelperService.validateAllFormFields).toHaveBeenCalled();

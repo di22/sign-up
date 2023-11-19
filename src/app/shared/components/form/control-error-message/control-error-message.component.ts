@@ -30,6 +30,7 @@ export class ControlErrorMessageComponent implements OnChanges {
   }
 
   get errorMessage() {
+    this.error = '';
     for (let propertyName in this.control.errors) {
       if (this.control.errors.hasOwnProperty(propertyName) && this.control.touched) {
         this.error = this.errorMessages()[propertyName];
