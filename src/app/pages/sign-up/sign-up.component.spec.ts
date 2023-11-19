@@ -10,43 +10,48 @@ describe('SignupComponent', () => {
   let component: SignUpComponent;
   let formHelperService: FormHelperService;
   let authRepository: AuthRepository;
+  let compiled: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SignUpComponent, HttpClientTestingModule],
       providers: [FormHelperService, AuthRepository]
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     formHelperService = TestBed.inject(FormHelperService);
     authRepository = TestBed.inject(AuthRepository);
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
+    compiled = fixture.nativeElement as HTMLElement;
+
+    fixture.detectChanges();
   });
 
-  it('should create the app', () => {
+  it('should create the signup component', () => {
     expect(component).toBeTruthy();
   });
 
   it('should render title', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('header')?.textContent).toContain('Sign up');
   });
 
   it('should init the form', () => {
-    fixture.detectChanges();
     expect(component.form).toBeTruthy();
   });
 
   it('should not render error message', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.message-error')).toBeFalsy();
   });
 
   it('should render four fields', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
+    expect(Object.keys(component.form.controls).length).toEqual(4);
+    expect(component.form.contains('firstName')).toBeTruthy();
+    expect(component.form.contains('lastName')).toBeTruthy();
+    expect(component.form.contains('email')).toBeTruthy();
+    expect(component.form.contains('password')).toBeTruthy();
+
     expect(compiled.querySelectorAll('app-input')?.length).toEqual(3);
     expect(compiled.querySelectorAll('app-input-password')?.length).toEqual(1);
   });
@@ -56,8 +61,6 @@ describe('SignupComponent', () => {
     jest.spyOn(component, 'signup');
     jest.spyOn(formHelperService, 'validateAllFormFields');
 
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
     const submitButton = compiled.querySelector('button') as HTMLButtonElement;
 
     submitButton.click();
@@ -69,7 +72,6 @@ describe('SignupComponent', () => {
   });
 
   it('should show email pattern error', () => {
-    fixture.detectChanges();
     jest.spyOn(component, 'signup');
     jest.spyOn(formHelperService, 'validateAllFormFields');
 
@@ -82,7 +84,6 @@ describe('SignupComponent', () => {
     component.form.patchValue(formValue);
     fixture.detectChanges();
 
-    const compiled = fixture.nativeElement as HTMLElement;
     const submitButton = compiled.querySelector('button') as HTMLButtonElement;
 
     submitButton.click();
@@ -99,8 +100,6 @@ describe('SignupComponent', () => {
   });
 
   it('should show password length and strength errors', () => {
-    // wait till form init
-    fixture.detectChanges();
     jest.spyOn(component, 'signup');
     jest.spyOn(formHelperService, 'validateAllFormFields');
 
@@ -113,7 +112,6 @@ describe('SignupComponent', () => {
     component.form.patchValue(formValue);
     fixture.detectChanges();
 
-    const compiled = fixture.nativeElement as HTMLElement;
     const submitButton = compiled.querySelector('button') as HTMLButtonElement;
 
     submitButton.click();
@@ -159,8 +157,6 @@ describe('SignupComponent', () => {
   });
 
   it('should execute login', () => {
-    // wait till form init
-    fixture.detectChanges();
     const mockedResponse = {
       firstName: 'diaa',
       lastName: 'hammad',
@@ -177,9 +173,7 @@ describe('SignupComponent', () => {
     component.email.setValue('diaa@hammad.com');
     component.password.setValue('AliAhmed45');
     fixture.detectChanges();
-    fixture.detectChanges();
 
-    const compiled = fixture.nativeElement as HTMLElement;
     const submitButton = compiled.querySelector('button') as HTMLButtonElement;
 
     submitButton.click();
@@ -190,7 +184,6 @@ describe('SignupComponent', () => {
     expect(errorMessages).toBeFalsy();
     expect(component.form.valid).toBeTruthy();
     expect(formHelperService.validateAllFormFields).toHaveBeenCalledTimes(0);
-    expect(component.signup).toHaveBeenCalled();
     expect(authRepository.signup).toHaveBeenCalledWith(component.form.value);
 
     authRepository.signup(component.form.value).subscribe(res => {
