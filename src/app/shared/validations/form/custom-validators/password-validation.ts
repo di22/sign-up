@@ -1,4 +1,5 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {lettersExistRegex} from "../../../util";
 
 export const passwordStrengthValidator = (): ValidatorFn => {
   return (control: AbstractControl) : ValidationErrors | null => {
@@ -13,10 +14,9 @@ export const passwordStrengthValidator = (): ValidatorFn => {
     const hasUpperCase: boolean = /[A-Z]+/.test(value);
     const hasLowerCase: boolean = /[a-z]+/.test(value);
 
-    const lowerCasePassword = value.toLowerCase();
 
     const passwordValid: boolean = hasUpperCase && hasLowerCase &&
-      !lowerCasePassword.includes(firstname?.toLowerCase()) && !lowerCasePassword.includes(lastname?.toLowerCase());
+      !lettersExistRegex(firstname, value) && !lettersExistRegex(lastname, value);
 
     return !passwordValid ? {passwordStrength: true} : null;
   }

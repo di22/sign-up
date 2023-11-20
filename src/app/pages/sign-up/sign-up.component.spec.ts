@@ -119,10 +119,9 @@ describe('SignupComponent', () => {
 
     let errorMessage: ControlErrorMessageComponent = fixture.debugElement.query(By.css('[data-test="password-error"]')).componentInstance;
 
-    expect(errorMessage.error).toBeTruthy();
-    expect(errorMessage.error).toEqual('You must follow the below instructions for strong password');
+    expect(errorMessage.error).toBeFalsy();
     expect(component.form.invalid).toBeTruthy();
-    expect(component.password.invalid).toBeTruthy();
+    expect(component.password.valid).toBeTruthy();
 /////////
     component.firstName.setValue('diaa');
     component.lastName.setValue('hammad');
@@ -215,8 +214,8 @@ describe('SignupComponent', () => {
     jest.spyOn(formHelperService, 'validateAllFormFields');
     jest.spyOn(authRepository, 'signup').mockReturnValue(of(mockedResponse));
 
-    component.firstName.setValue('diaa');
-    component.lastName.setValue('hammad');
+    component.firstName.setValue('mohamed');
+    component.lastName.setValue('said');
     component.email.setValue('diaa@hammad.com');
     component.password.setValue('AliAhmed45');
     fixture.detectChanges();
